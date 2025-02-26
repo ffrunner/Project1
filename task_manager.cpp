@@ -2,11 +2,12 @@
 #include <thread>
 #include <vector>
 #include <chrono>
+#include <mutex>
 
 class Task {
 private:
     int id; // Task ID
-
+    static std::mutex mtx;	
 public:
     Task(int taskId) : id(taskId) {}
 
@@ -17,9 +18,11 @@ public:
     }
 };
 
+std::mutex Task::mtx;
+
 int main() {
     std::vector<std::thread> threads; // Vector to hold threads
-    const int numTasks = 5; // Number of tasks
+    const int numTasks = 10; // Number of tasks
 
     // Create tasks and threads
     for (int i = 0; i < numTasks; ++i) {
